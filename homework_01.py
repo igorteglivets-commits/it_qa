@@ -34,6 +34,7 @@ storona_2 = 2
 storona_3 = 3
 storona_4 = 4
 
+
 perimeter = storona_1 + storona_2 + storona_3 + storona_4
 print("Периметр фігури:", perimeter)
 
