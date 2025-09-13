@@ -3,6 +3,7 @@ print("Hello", end = " ")
 print("world!")
 
 
+
 # task 02 == Виправте синтаксичні помилки
 hello = "Hello"
 world = "world"
