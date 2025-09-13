@@ -1,2 +1,3 @@
 Some info for git 
 
+Some info for git
