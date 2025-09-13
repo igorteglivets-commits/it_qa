@@ -140,6 +140,7 @@ celerybeat.pid
 venv
 .idea
 .venv
+
 env/
 venv/
 ENV/
