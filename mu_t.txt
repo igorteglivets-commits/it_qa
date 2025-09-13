@@ -1,2 +1,2 @@
-Some for git
+Some info for git 
 
