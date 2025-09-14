@@ -1,4 +1,4 @@
-import random  # щоб випадкові числа працювали
+import random
 
 
 # 1. Клас машинки
@@ -10,7 +10,7 @@ class Car:
 
     def drive(self):
         speed = random.randint(20, 100)  # випадкова швидкість
-        print(f"{self.make} {self.model} їде зі швидкістю {speed} км/год!")
+        return speed
 
 
 # 2. Створюємо машинки
@@ -29,7 +29,21 @@ elif choice == 2:
 else:
     player_car = car3
 
-# 4. Гра - 5 поїздок
+# 4. Комп'ютер вибирає випадкову машинку
+computer_car = random.choice([car1, car2, car3])
+print(f"Комп’ютер вибрав: {computer_car.make} {computer_car.model}")
+
+# 5. Гонка - 5 раундів
 for i in range(1, 6):
-    print(f"\n--- Поїздка {i} ---")
-    player_car.drive()
+    print(f"\n--- Раунд {i} ---")
+    player_speed = player_car.drive()
+    computer_speed = computer_car.drive()
+    print(f"Твоя машинка: {player_car.make} {player_car.model}, швидкість {player_speed} км/год")
+    print(f"Машинка комп’ютера: {computer_car.make} {computer_car.model}, швидкість {computer_speed} км/год")
+
+    if player_speed > computer_speed:
+        print("Ти виграв цей раунд! 🏆")
+    elif player_speed < computer_speed:
+        print("Комп’ютер виграв цей раунд! 🤖")
+    else:
+        print("Нічия! ⚖️")
