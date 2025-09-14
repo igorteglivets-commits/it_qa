@@ -8,8 +8,8 @@ class Car:
         self.model = model
         self.year = year
 
-    def drive(self):
-        speed = random.randint(20, 100)  # випадкова швидкість
+    def drive(self, bonus=0):
+        speed = random.randint(20, 100) + bonus  # швидкість + бонус
         return speed
 
 
@@ -33,17 +33,45 @@ else:
 computer_car = random.choice([car1, car2, car3])
 print(f"Комп’ютер вибрав: {computer_car.make} {computer_car.model}")
 
-# 5. Гонка - 5 раундів
+# 5. Лічильники перемог
+player_wins = 0
+computer_wins = 0
+
+# 6. Гонка - 5 раундів
 for i in range(1, 6):
     print(f"\n--- Раунд {i} ---")
-    player_speed = player_car.drive()
-    computer_speed = computer_car.drive()
-    print(f"Твоя машинка: {player_car.make} {player_car.model}, швидкість {player_speed} км/год")
-    print(f"Машинка комп’ютера: {computer_car.make} {computer_car.model}, швидкість {computer_speed} км/год")
+
+    # Користувач обирає бонус
+    bonus = int(input("Введи бонус швидкості для своєї машинки (0-20): "))
+
+    # Комп’ютер отримує випадковий бонус
+    computer_bonus = random.randint(0, 20)
+
+    # Обчислюємо швидкість
+    player_speed = player_car.drive(bonus)
+    computer_speed = computer_car.drive(computer_bonus)
+
+    print(f"Твоя машинка: {player_car.make} {player_car.model}, швидкість {player_speed} км/год (бонус +{bonus})")
+    print(
+        f"Машинка комп’ютера: {computer_car.make} {computer_car.model}, швидкість {computer_speed} км/год (бонус +{computer_bonus})")
 
     if player_speed > computer_speed:
         print("Ти виграв цей раунд! 🏆")
+        player_wins += 1
     elif player_speed < computer_speed:
         print("Комп’ютер виграв цей раунд! 🤖")
+        computer_wins += 1
     else:
         print("Нічия! ⚖️")
+
+# 7. Підсумок гонки
+print("\n=== Підсумок гонки ===")
+print(f"Ти виграв {player_wins} раундів")
+print(f"Комп’ютер виграв {computer_wins} раундів")
+
+if player_wins > computer_wins:
+    print("Вітаю! Ти виграв гонку! 🏁🎉")
+elif player_wins < computer_wins:
+    print("Комп’ютер виграв гонку! 🤖🏁")
+else:
+    print("Гонка завершилась нічією! ⚖️")
