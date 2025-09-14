@@ -1,77 +1,79 @@
 import random
+import time
 
 
 # 1. Клас машинки
 class Car:
-    def __init__(self, make, model, year):
+    def __init__(self, make, model):
         self.make = make
         self.model = model
-        self.year = year
+        self.position = 0  # позиція на треку
 
     def drive(self, bonus=0):
-        speed = random.randint(20, 100) + bonus  # швидкість + бонус
-        return speed
+        step = random.randint(1, 5) + bonus
+        self.position += step
+        return step
 
 
 # 2. Створюємо машинки
-car1 = Car("Toyota", "Camry", 2020)
-car2 = Car("BMW", "X5", 2022)
-car3 = Car("Ford", "Focus", 2019)
+car1 = Car("Toyota", "Camry")
+car2 = Car("BMW", "X5")
+car3 = Car("Ford", "Focus")
 
-# 3. Вибір користувачем
-print("Вибери машинку: 1 - Toyota, 2 - BMW, 3 - Ford")
-choice = int(input("Введи номер машинки: "))
+cars = [car1, car2, car3]
 
-if choice == 1:
-    player_car = car1
-elif choice == 2:
-    player_car = car2
-else:
-    player_car = car3
+# 3. Вибір користувачем з обробкою помилок
+while True:
+    try:
+        choice = int(input("Вибери машинку: 1 - Toyota, 2 - BMW, 3 - Ford: "))
+        if choice not in [1, 2, 3]:
+            raise ValueError("Номер машинки повинен бути 1, 2 або 3!")
+        player_car = cars[choice - 1]
+        break
+    except ValueError as e:
+        print("Помилка:", e)
 
 # 4. Комп'ютер вибирає випадкову машинку
-computer_car = random.choice([car1, car2, car3])
+computer_car = random.choice(cars)
 print(f"Комп’ютер вибрав: {computer_car.make} {computer_car.model}")
 
-# 5. Лічильники перемог
-player_wins = 0
-computer_wins = 0
+# 5. Довжина треку
+track_length = 30
 
-# 6. Гонка - 5 раундів
-for i in range(1, 6):
-    print(f"\n--- Раунд {i} ---")
+# 6. Гонка
+round_number = 1
+while player_car.position < track_length and computer_car.position < track_length:
+    print(f"\n--- Раунд {round_number} ---")
 
-    # Користувач обирає бонус
-    bonus = int(input("Введи бонус швидкості для своєї машинки (0-20): "))
+    # Вводимо бонус з ексепшинами
+    while True:
+        try:
+            bonus = int(input("Введи бонус швидкості (0-3): "))
+            if bonus < 0 or bonus > 3:
+                raise ValueError("Бонус має бути між 0 і 3!")
+            break
+        except ValueError as e:
+            print("Помилка:", e)
 
-    # Комп’ютер отримує випадковий бонус
-    computer_bonus = random.randint(0, 20)
+    computer_bonus = random.randint(0, 3)
 
-    # Обчислюємо швидкість
-    player_speed = player_car.drive(bonus)
-    computer_speed = computer_car.drive(computer_bonus)
+    # Рухаємо машинки
+    player_step = player_car.drive(bonus)
+    computer_step = computer_car.drive(computer_bonus)
 
-    print(f"Твоя машинка: {player_car.make} {player_car.model}, швидкість {player_speed} км/год (бонус +{bonus})")
-    print(
-        f"Машинка комп’ютера: {computer_car.make} {computer_car.model}, швидкість {computer_speed} км/год (бонус +{computer_bonus})")
+    # Показуємо трек
+    print("Трек:")
+    print("Твоя машинка:     " + "-" * player_car.position + "🚗")
+    print("Машинка комп'ютера:" + "-" * computer_car.position + "🤖")
 
-    if player_speed > computer_speed:
-        print("Ти виграв цей раунд! 🏆")
-        player_wins += 1
-    elif player_speed < computer_speed:
-        print("Комп’ютер виграв цей раунд! 🤖")
-        computer_wins += 1
-    else:
-        print("Нічия! ⚖️")
+    round_number += 1
+    time.sleep(1)
 
 # 7. Підсумок гонки
-print("\n=== Підсумок гонки ===")
-print(f"Ти виграв {player_wins} раундів")
-print(f"Комп’ютер виграв {computer_wins} раундів")
-
-if player_wins > computer_wins:
-    print("Вітаю! Ти виграв гонку! 🏁🎉")
-elif player_wins < computer_wins:
-    print("Комп’ютер виграв гонку! 🤖🏁")
+print("\n=== Фініш! ===")
+if player_car.position >= track_length and computer_car.position >= track_length:
+    print("Нічия! ⚖️ Обидві машинки дісталися фінішу одночасно!")
+elif player_car.position >= track_length:
+    print("Вітаю! Твоя машинка виграла гонку! 🏁🎉")
 else:
-    print("Гонка завершилась нічією! ⚖️")
+    print("Комп’ютер виграв гонку! 🤖🏁")
