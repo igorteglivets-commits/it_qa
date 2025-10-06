@@ -43,10 +43,38 @@ average_of_numbers([2,3,3,2])
 # task 4
 """  Написати функцію, яка приймає рядок та повертає його у зворотному порядку.
 """
+def reverse_string(text):
+    return text[::-1]  # перевертає рядок зріз
+
+while True:
+    user_input = input("Введіть рядок: ")
+    reversed_text = reverse_string(user_input)
+    print("Рядок у зворотному порядку:", reversed_text)
+
+    again = input("Хочете спробувати ще раз? (так/ні): ").lower()  # тут ловер
+    if again == "так":
+        continue
+    else:
+        print("Дякую! Програму завершено.")
+        break
+
 
 # task 5
 """  Написати функцію, яка приймає список слів та повертає найдовше слово у списку.
 """
+def longest_word(words_list):
+    return max(words_list, key=len)
+
+while True:
+    user_input = input("Введіть слова через пробіл: ")
+    words = user_input.split()
+    longest = longest_word(words)
+    print("Найдовше слово:", longest)
+
+    again = input("Хочете спробувати ще раз? (так/ні): ").lower()
+    if again != "так":
+        print("Дякую! Програму завершено.")
+        break
 
 # task 6
 """  Написати функцію, яка приймає два рядки та повертає індекс першого входження другого рядка
