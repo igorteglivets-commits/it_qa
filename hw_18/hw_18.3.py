@@ -26,7 +26,6 @@ def handle_exceptions(func):
     return wrapper
 
 
-# ======= приклади використання =======
 
 @log_calls
 def add(a, b):
@@ -44,4 +43,4 @@ if __name__ == "__main__":
 
     print("Тест декоратора обробки помилок:")
     print(divide(10, 2))
-    print(divide(10, 0))  # буде перехоплено
+    print(divide(10, 0))

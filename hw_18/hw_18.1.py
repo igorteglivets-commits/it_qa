@@ -13,7 +13,6 @@ def fibonacci(n):
         a, b = b, a + b
 
 
-# приклад використання
 if __name__ == "__main__":
     N = 10
 

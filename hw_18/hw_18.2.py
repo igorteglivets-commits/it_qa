@@ -32,7 +32,6 @@ class EvenIterator:
         return value
 
 
-# приклад використання
 if __name__ == "__main__":
     print("Зворотний список:")
     items = [10, 20, 30, 40]
