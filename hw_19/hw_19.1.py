@@ -6,6 +6,7 @@ BASE_URL = "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos"
 CAMERAS = ["fhaz", "rhaz"]
 
 
+
 def fetch_photos(sol: int, camera: str) -> list:
     params = {"sol": sol, "camera": camera, "api_key": API_KEY}
     response = requests.get(BASE_URL, params=params)

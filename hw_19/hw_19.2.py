@@ -3,6 +3,7 @@ from urllib.parse import quote
 
 BASE_URL = "http://127.0.0.1:8080"
 
+
 def upload_image(img_url: str, filename: str) -> str:
 
 

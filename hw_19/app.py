@@ -44,6 +44,7 @@ def delete_image(filename):
     if not os.path.exists(filepath):
         return jsonify({'error': 'Image not found'}), 404
 
+
     os.remove(filepath)
     return jsonify({'message': f'Image {filename} deleted'}), 200
 
