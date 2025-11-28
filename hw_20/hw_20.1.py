@@ -55,5 +55,4 @@ def analyze_heartbeat(input_file="hblog.txt", output_file="hb_test.log"):
 
     print(f"Готово Лог створено: {output_path}")
 
-
 analyze_heartbeat()
