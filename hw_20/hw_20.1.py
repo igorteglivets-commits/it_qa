@@ -53,7 +53,7 @@ def analyze_heartbeat(input_file="hblog.txt", output_file="hb_test.log"):
             previous_ts = ts
             previous_line = line
 
-    print(f"Готово ✔ Лог створено: {output_path}")
+    print(f"Готово Лог створено: {output_path}")
 
 
 analyze_heartbeat()
