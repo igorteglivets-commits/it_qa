@@ -28,8 +28,7 @@ pipeline {
                 . venv/bin/activate
                 export PYTHONPATH=$PYTHONPATH:.
 
-                # ТУТ ТІЛЬКИ ЦЯ КОМАНДА. БЕЗ find.
-                # Ми кажемо pytest: "Шукай тести всюди, КРІМ папки venv"
+
                 python3 -m pytest --alluredir=allure-results --ignore=venv
                 '''
             }

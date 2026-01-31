@@ -19,7 +19,7 @@
     stages {
         stage(&apos;Checkout&apos;) {
             steps {
-                git branch: &apos;main&apos;, url: &apos;https://github.com/igorteglivets-commits/it_qa.git&apos;
+                git branch: &apos;hw_31&apos;, url: &apos;https://github.com/igorteglivets-commits/it_qa.git&apos;
             }
         }
 
@@ -30,31 +30,33 @@
                 python3 -m venv venv
                 . venv/bin/activate
                 pip install --upgrade pip
-                pip install -r requirements.txt pytest allure-pytest
+                pip install -r requirements.txt pytest allure-pytest playwright
+                python3 -m playwright install chromium --with-deps
                 &apos;&apos;&apos;
             }
         }
 
-        stage(&apos;Run all tests&apos;) {
+        stage(&apos;Run tests&apos;) {
             steps {
                 sh &apos;&apos;&apos;
                 #!/bin/bash
                 . venv/bin/activate
-                export PYTHONPATH=$PYTHONPATH:$PWD
-                # Запуск pytest для всіх тестів у репозиторії
-                python -m pytest --alluredir=allure-results $(find . -type f -name &quot;test_*.py&quot;)
+                export PYTHONPATH=$PYTHONPATH:.
+                
+                # ТУТ ТІЛЬКИ ЦЯ КОМАНДА. БЕЗ find. 
+                # Ми кажемо pytest: &quot;Шукай тести всюди, КРІМ папки venv&quot;
+                python3 -m pytest --alluredir=allure-results --ignore=venv
                 &apos;&apos;&apos;
             }
         }
+    }
 
-        stage(&apos;Allure Report&apos;) {
-            steps {
-                allure includeProperties: false, jdk: &apos;&apos;, results: [[path: &apos;allure-results&apos;]]
-            }
+    post {
+        always {
+            allure includeProperties: false, jdk: &apos;&apos;, results: [[path: &apos;allure-results&apos;]]
         }
     }
-}
-</script>
+}</script>
     <sandbox>true</sandbox>
   </definition>
   <triggers/>
