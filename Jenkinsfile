@@ -15,24 +15,22 @@ pipeline {
                 python3 -m venv venv
                 . venv/bin/activate
                 pip install --upgrade pip
-                # Встановлюємо залежності + Playwright
                 pip install -r requirements.txt pytest allure-pytest playwright
-                # Встановлюємо браузери (без цього Playwright не запрацює в Jenkins)
-                python -m playwright install chromium --with-deps
+                python3 -m playwright install chromium --with-deps
                 '''
             }
         }
 
-        stage('Run all tests') {
+        stage('Run tests') {
             steps {
                 sh '''
                 #!/bin/bash
                 . venv/bin/activate
-                export PYTHONPATH=$PYTHONPATH:$PWD
+                export PYTHONPATH=$PYTHONPATH:.
 
-                # ГОЛОВНА ЗМІНА: прибрали $(find ...), додали --ignore=venv
-                # --continue-on-collection-errors дозволить зібрати звіт, навіть якщо hw_14 не валідний
-                python3 -m pytest --alluredir=allure-results --ignore=venv --continue-on-collection-errors
+                # ТУТ ТІЛЬКИ ЦЯ КОМАНДА. БЕЗ find.
+                # Ми кажемо pytest: "Шукай тести всюди, КРІМ папки venv"
+                python3 -m pytest --alluredir=allure-results --ignore=venv
                 '''
             }
         }
@@ -40,7 +38,6 @@ pipeline {
 
     post {
         always {
-            // Це змусить Jenkins робити звіт незалежно від результату тестів
             allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
         }
     }
