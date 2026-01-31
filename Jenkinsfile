@@ -5,8 +5,8 @@ stage('Run all tests') {
         . venv/bin/activate
         export PYTHONPATH=$PYTHONPATH:.
 
-
-        python3 -m pytest --alluredir=allure-results --continue-on-collection-errors
+        # Запускаємо тільки твої тести, ігноруючи сторонні бібліотеки
+        python3 -m pytest --alluredir=allure-results --ignore=venv
         '''
     }
 }
