@@ -1,0 +1,41 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/igorteglivets-commits/it_qa.git'
+            }
+        }
+
+        stage('Install dependencies') {
+            steps {
+                sh '''
+                #!/bin/bash
+                python3 -m venv venv
+                . venv/bin/activate
+                pip install --upgrade pip
+                pip install -r requirements.txt pytest allure-pytest
+                '''
+            }
+        }
+
+        stage('Run all tests') {
+            steps {
+                sh '''
+                #!/bin/bash
+                . venv/bin/activate
+                export PYTHONPATH=$PYTHONPATH:$PWD
+                python -m pytest --alluredir=allure-results $(find . -type f -name "test_*.py")
+                '''
+            }
+        }
+
+        stage('Allure Report') {
+            steps {
+                allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
+            }
+        }
+    }
+}
+
