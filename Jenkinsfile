@@ -1,40 +1,15 @@
-pipeline {
-    agent any
-
-    stages {
-        stage('Checkout') {
-            steps {
-                git branch: 'main', url: 'https://github.com/igorteglivets-commits/it_qa.git'
-            }
-        }
-
-        stage('Install dependencies') {
-            steps {
-                sh '''
-                #!/bin/bash
-                python3 -m venv venv
-                . venv/bin/activate
-                pip install --upgrade pip
-                pip install -r requirements.txt pytest allure-pytest
-                '''
-            }
-        }
-
-        stage('Run tests') {
-            steps {
-                sh '''
-                #!/bin/bash
-                . venv/bin/activate
-                export PYTHONPATH=$PYTHONPATH:$PWD
-                python -m pytest --alluredir=allure-results
-                '''
-            }
-        }
-
-        stage('Allure Report') {
-            steps {
-                allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
-            }
-        }
+stage('Run all tests') {
+    steps {
+        sh '''
+        #!/bin/bash
+        . venv/bin/activate
+        
+        # Додаємо поточну папку в шлях пошуку модулів
+        export PYTHONPATH=$PYTHONPATH:. 
+        
+        # Запускаємо pytest. Флаг -v покаже, які саме тести знайдені
+        # Якщо тестів немає в якійсь папці, pytest просто їх пропустить
+        python -m pytest --alluredir=allure-results -v
+        '''
     }
 }
